@@ -1,10 +1,22 @@
 const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.calculator__keys');
+const display = document.querySelector('.calculator__display');
+
 keys.addEventListener('click', e=>{
     if(e.target.matches('button')){
         const key = e.target;
         const action = key.dataset.action;
-        if(!action){console.log('number key!')};
+        const keyContent = key.textContent;
+        const displayedNum = display.textContent;
+
+        if(!action){ //if press the number button
+            if(displayedNum ==='0'){
+                display.textContent = keyContent;
+            }
+            else{
+                display.textContent = displayedNum + keyContent;
+            }
+        };
 
         if(
             action ==='add'||
@@ -15,7 +27,7 @@ keys.addEventListener('click', e=>{
             console.log('operator key!')
             };
         if (action === 'decimal'){
-            console.log('decimal key!')
+            display.textContent = displayedNum + '.';
         };
         
         if(action === 'clear'){
