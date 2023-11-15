@@ -52,12 +52,22 @@ keys.addEventListener('click', e=>{
             action === 'multiply' ||
             action === 'divide'
             ){
-                key.classList.add('is-depressed');
+                const firstValue = calculator.dataset.firstValue
+                const operator = calculator.dataset.operator
+                const secondValue = displayedNum
+
+                if(firstValue && operator && previousKeyType !== 'operator' &&previousKeyType !== 'calculate'){
+                    const calcValue = calculate(firstValue,operator,secondValue)
+                    display.textContent = calcValue
+                    calculator.dataset.firstValue = calcValue
+                }else{
+                    calculator.dataset.firstValue = displayedNum
+                }
+                key.classList.add('is-depressed')
 
                 calculator.dataset.previousKeyType = 'operator'
-                calculator.dataset.firstValue = displayedNum;//save the first value
-                calculator.dataset.operator = action; // save the operation key
-                console.log(calculator.dataset);
+                calculator.dataset.operator = action // save the operation key
+                console.log(calculator.dataset)
             };
         if (action === 'decimal'){//if press the decimal button
             
