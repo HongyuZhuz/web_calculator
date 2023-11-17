@@ -56,16 +56,18 @@ keys.addEventListener('click', e=>{
                 const operator = calculator.dataset.operator
                 const secondValue = displayedNum
 
-                if(firstValue && operator && previousKeyType ==='number'){
+                if(firstValue && operator && previousKeyType !=='operator'){
+                    calculator.dataset.previousKeyType = 'operator'
                     const calcValue = calculate(firstValue,operator,secondValue)
                     display.textContent = calcValue
                     calculator.dataset.firstValue = calcValue
                 }else{
+                    calculator.dataset.previousKeyType = 'operator'
                     calculator.dataset.firstValue = displayedNum
                 }
                 key.classList.add('is-depressed')
 
-                calculator.dataset.previousKeyType = 'operator'
+                
                 calculator.dataset.operator = action // save the operation key
                 console.log(calculator.dataset)
             };
@@ -87,12 +89,27 @@ keys.addEventListener('click', e=>{
 
         if(action ==='calculate'){//if press the calculate button
 
-            calculator.dataset.previousKeyType = 'calculate'
-            const firstValue = calculator.dataset.firstValue;
-            const secondValue = displayedNum;
+            
+            let firstValue = calculator.dataset.firstValue;
+            let secondValue = displayedNum;
             const operator = calculator.dataset.operator;
+            
 
-            display.textContent = calculate(firstValue,operator, secondValue);
+            if(firstValue){//only if the first value exist(the operator button is clicked), the calculating process will happen
+                if(previousKeyType === "calculate"){
+                    firstValue = displayedNum
+                    secondValue = calculator.dataset.modValue
+                }
+                display.textContent = calculate(firstValue,operator, secondValue)
+            }
+
+            //set modValue attribute to remember the secondValue
+            calculator.dataset.modValue = secondValue
+            calculator.dataset.previousKeyType = 'calculate'
+
+            console.log(calculator.dataset)
+            
+            
         }
     };
 });
