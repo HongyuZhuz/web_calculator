@@ -1,6 +1,7 @@
 const calculator = document.querySelector('.calculator')
 const keys = calculator.querySelector('.calculator__keys')
 const display = document.querySelector('.calculator__display')
+const clearButton = calculator.querySelector('[data-action=clear]')
 
 const calculate = (n1,operator, n2) =>{
     let result = ''
@@ -30,8 +31,16 @@ keys.addEventListener('click', e=>{
         const previousKeyType = calculator.dataset.previousKeyType
 
         //// Remove is-depressed class from all keys
-        Array.from(key.parentNode.children)
+        if(key.textContent!=='CE'){
+            Array.from(key.parentNode.children)
         .forEach(k => k.classList.remove('is-depressed'))
+        }
+        
+
+        if (action!=='clear'){
+            //为什么不在全局定义？
+            clearButton.textContent = 'CE'
+        }
 
         
 
@@ -83,8 +92,16 @@ keys.addEventListener('click', e=>{
         };
         
         if(action === 'clear'){//if press the AC button
+            if (key.textContent === 'AC'){
+                calculator.dataset.firstValue = ''
+                calculator.dataset.modValue=''
+                calculator.dataset.operator=''
+                calculator.dataset.previousKeyType=''
+            }else{
+                key.textContent = 'AC'
+            }
+            display.textContent = 0
             calculator.dataset.previousKeyType = 'clear'
-            console.log('clear key!')
         };
 
         if(action ==='calculate'){//if press the calculate button
