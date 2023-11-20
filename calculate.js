@@ -36,9 +36,8 @@ keys.addEventListener('click', e=>{
         
 
         if(!action){ //if press the number button
-            if(displayedNum ==='0' || previousKeyType === 'operator'){
+            if(displayedNum ==='0' || previousKeyType === 'operator'||previousKeyType ==='calculate'){
                 display.textContent = keyContent; //reset the display number
-                calculator.dataset.previousKeyType = ''; // Clear the previousKeyType
             }
             else{
                 display.textContent = displayedNum + keyContent;
@@ -56,15 +55,16 @@ keys.addEventListener('click', e=>{
                 const operator = calculator.dataset.operator
                 const secondValue = displayedNum
 
-                if(firstValue && operator && previousKeyType !=='operator'){
-                    calculator.dataset.previousKeyType = 'operator'
+                if(firstValue && operator && previousKeyType !=='operator' &&previousKeyType!=='calculate'){
+                    
                     const calcValue = calculate(firstValue,operator,secondValue)
                     display.textContent = calcValue
                     calculator.dataset.firstValue = calcValue
                 }else{
-                    calculator.dataset.previousKeyType = 'operator'
+                    
                     calculator.dataset.firstValue = displayedNum
                 }
+                calculator.dataset.previousKeyType = 'operator'
                 key.classList.add('is-depressed')
 
                 
@@ -72,11 +72,11 @@ keys.addEventListener('click', e=>{
                 console.log(calculator.dataset)
             };
         if (action === 'decimal'){//if press the decimal button
-            
-            if (previousKeyType === 'operator'){
+
+            if (previousKeyType ==='operator' ||previousKeyType==='calculate'){
                 display.textContent = '0.'
-            }else if(!displayedNum.includes('.')){
-                display.textContent = displayedNum + '.'
+            }else if (!displayedNum.includes('.')){
+                display.textContent = displayedNum + '.' 
             }
             calculator.dataset.previousKeyType = 'decimal'
             
